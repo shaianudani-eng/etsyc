@@ -44,9 +44,9 @@ export default async function SellerDashboardPage() {
         Your world, your counter.
       </h1>
       <p className="max-w-measure text-body-lg text-muted">
-        The full dashboard — orders, films, your store world — arrives with
-        Batch 3 seller onboarding. Your seller identity and shop ownership are
-        already tied to this account.
+        The full dashboard — orders, films, your store world — is on its way.
+        Your seller identity and shop ownership are already tied to this
+        account.
       </p>
       <p className="text-body-lg">
         <Link
