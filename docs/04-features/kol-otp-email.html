@@ -1,0 +1,62 @@
+<!-- KOL — Supabase auth email template (6-digit OTP).
+     Paste this ENTIRE file into BOTH templates in the Supabase dashboard:
+       Authentication → Emails → Templates → "Magic link or OTP"  (returning users)
+       Authentication → Emails → Templates → "Confirm sign up"    (first-time users)
+     Both are read-only until custom SMTP is enabled.
+     Both must use {{ .Token }} — a template left on {{ .ConfirmationURL }}
+     sends a link, and the app only accepts a typed 6-digit code.
+     Palette = KOL sunbaked-light tokens from src/app/globals.css.
+     Fonts are system stacks on purpose: web fonts do not load in most mail clients. -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f6efe3;margin:0;padding:32px 12px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background-color:#fffbf3;border:1px solid #e7dcc8;border-radius:14px;">
+        <tr>
+          <td style="padding:32px 32px 0 32px;">
+            <p style="margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#645648;">
+              KOL &middot; sign in
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:16px 32px 0 32px;">
+            <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.25;font-weight:700;color:#221c15;">
+              Your code is ready.
+            </h1>
+            <p style="margin:12px 0 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#645648;">
+              Type these six digits back into the tab you left open. Same code whether you have been here before or not &mdash; if you are new, it creates your account.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 32px 0 32px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f6efe3;border:1px solid #e7dcc8;border-radius:10px;">
+              <tr>
+                <td align="center" style="padding:22px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:34px;line-height:1;letter-spacing:0.22em;font-weight:700;color:#221c15;">
+                  {{ .Token }}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:20px 32px 0 32px;">
+            <p style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#645648;">
+              The code expires in 10 minutes and works once. If it runs out, hit <span style="color:#221c15;">Resend code</span> on the sign-in page for a fresh one.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:20px 32px 32px 32px;">
+            <p style="margin:0;padding-top:20px;border-top:1px solid #e7dcc8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#645648;">
+              Did not ask for this? Someone typed {{ .Email }} into KOL by mistake. Ignore this email &mdash; nothing was created and no one can get in without the code.
+            </p>
+          </td>
+        </tr>
+      </table>
+      <p style="margin:20px 0 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#645648;">
+        KOL &middot; makers, on film
+      </p>
+    </td>
+  </tr>
+</table>
