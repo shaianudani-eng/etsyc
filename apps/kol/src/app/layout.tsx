@@ -37,9 +37,17 @@ const FONTSHARE_CSS =
   "https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://etsyc.vercel.app"),
   title: "KOL — meet the maker",
   description:
     "A video-native marketplace where every shop is a maker's world — real people on film, not a product grid.",
+  openGraph: {
+    title: "KOL — meet the maker",
+    description:
+      "A video-native marketplace where every shop is a maker's world — real people on film, not a product grid.",
+    siteName: "KOL",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
