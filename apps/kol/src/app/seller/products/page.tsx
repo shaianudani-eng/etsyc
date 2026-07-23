@@ -164,8 +164,17 @@ function Shell({
 }) {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-page flex-col gap-[var(--space-4)] px-[var(--space-2)] py-[var(--space-4)] md:px-[var(--space-6)]">
+      {/* Breadcrumb home — same shape the product editor already uses, so
+          every seller surface has one way back up. */}
       <p className="font-text text-caption uppercase tracking-[0.08em] text-muted">
-        KOL · your pieces{storeName ? ` · ${storeName}` : ""}
+        <Link
+          href="/seller"
+          className="rounded-sm outline-offset-4 transition-colors duration-state ease-kol hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+        >
+          KOL
+        </Link>
+        {" · your pieces"}
+        {storeName ? ` · ${storeName}` : ""}
       </p>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <h1 className="max-w-[16ch] font-display text-display-hero [text-wrap:balance]">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { TagEditor, type ProductOption } from "@/components/tagging/TagEditor";
@@ -95,7 +96,13 @@ export default async function ClipTaggingPage({
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-page flex-col gap-[var(--space-4)] px-[var(--space-2)] py-[var(--space-4)] md:px-[var(--space-6)]">
       <p className="font-text text-caption uppercase tracking-[0.08em] text-muted">
-        KOL · tag clip
+        <Link
+          href="/seller"
+          className="rounded-sm outline-offset-4 transition-colors duration-state ease-kol hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+        >
+          KOL
+        </Link>
+        {" · tag clip"}
       </p>
       <h1 className="max-w-[16ch] font-display text-display-hero [text-wrap:balance]">
         Where should this film live?
