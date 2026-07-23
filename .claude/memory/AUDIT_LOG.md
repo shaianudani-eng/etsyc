@@ -53,3 +53,25 @@
 - MIG-TS verified merged/applied/proven on main (E4 satisfied). Ruling: verifications.created_at INSERT gap = follow-up G1-F12 (no read side today), NOT a T1 blocker; needs its own Founder-signed micro-migration before the verification-resolution flow.
 - Merge order: w2-wire → film-layer → full suite on main after each. T1: E1/E2/E3/E4 satisfied; E5 (maker-name ruling) still holds B3 only. G1-F2 untouched — becomes P1 at Gate 2 if B2 ships without it.
 - Session: docs/08-agents_work/sessions/2026-07-22-qa-lead-gate1-recheck.md
+
+## 2026-07-22 — QA-Lead PASS — KOL engine exhaustion encore (P6b engine contract change)
+
+- Branch: claude/blissful-sutherland-c2b515 @ commits e25746f + 1c8e0aa
+- Tier: Full (engine contract — anti-repetition.ts stage-3 logic)
+- Diff: 128 lines; anti-repetition.ts (+26 net), select-videos.ts (doc comment only), 2 test suites (+77), spec §3.1 + OQ table, session file
+- Reviewers: code-reviewer, security-engineer, adversary-mode (all clear)
+- Tests: 73/73 engine suite, tsc clean, eslint clean; pre-existing flaky jsdom media-timing failures confirmed unrelated (baseline main 11/7 files, with change 5/4 — run-to-run NOISE from 5s timeouts under parallel load, not an improvement caused by this change; all pass in isolation). Tracked separately as tech debt.
+- P0/P1: None
+- P3 tech-debt: (1) FEED RSC write-swallow + encore not exercised in isolation, (2) selectBrowseClip JSDoc null-path wording slightly stale, (3) visit3/visit4 cycle only tested with passthroughRanker
+- Re-pin verdict: JUSTIFIED — `visit3.clips == []` was pinning a known-bad behavior; new pin reflects correct contract. Graceful-empty guarantee preserved for empty eligible pool.
+- Session: docs/08-agents_work/sessions/2026-07-22-qa-lead-engine-exhaustion-encore.md
+
+## 2026-07-23 — Merge to main ATTEMPTED, REVERTED, then re-landed docs-only — engine exhaustion encore
+
+- Branch `claude/blissful-sutherland-c2b515` (QA-Lead PASS, risk:full) merged to main as `34fd414`; **reverted, never pushed.**
+- Cause: branch forked at `125a6d5`, before the 2026-07-22 v1 archive (`git mv` of the whole front-end to `.archive/kol-v1-2026-07-22/`). Rename detection silently re-applied every code change at the archived path. Merge reported ONE conflict (DECISIONS.md append) and zero code conflicts — the quietness was the symptom, not reassurance.
+- Detection: post-merge `git diff --stat <merge> <branch> -- apps/kol/src` returned ~250 files / 33k lines when it should have been empty. Confirmed via `git ls-tree`: live `apps/kol/src/lib/engine/` absent on main; every "exhaustion encore" hit under `.archive/`.
+- Revert: `git reset --keep f7e69df` (deliberately NOT `--hard` — an unrelated session had uncommitted `.mcp.json` work in that checkout, which was preserved). main returned to 0/0 with origin/main. No push occurred at any point, so nothing propagated to either remote.
+- Re-landed as **docs-only** on `claude/encore-docs-port`: spec §3.1 + OQ-V6 + build checklist, two DECISIONS entries, these audit lines, both session files. Code deliberately excluded — its paths resolve into `.archive/`.
+- Canonical copy of the implementation: branch `claude/blissful-sutherland-c2b515` @ `e25746f`..`99c4af5`, pushed to `fork`. Port it when v2 rebuilds stage 3; do not git-merge it.
+- Standing check added (DECISIONS 2026-07-23): after merging any branch older than a structural file move, verify by CONTENT (`git diff --stat` of result vs branch, `git grep` for a distinctive string at the expected path) before pushing.

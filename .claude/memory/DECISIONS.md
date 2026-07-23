@@ -384,3 +384,41 @@ Geist Mono), whileInView motion language, editorial masonry. Do not diverge with
 **Affects:** design-lead, frontend-engineer, product-designer — every future KOL screen builds on
 this scaffold and contract
 **Status:** Merged to main (`ee308da`); next pages queued (expanded-video, maker-world, product, checkout).
+
+---
+
+## 2026-07-23 — A pinned test asserts a behaviour, not necessarily a guarantee — establish which before defending it
+
+**Context:** The video engine's stage 3 returned an empty selection once the session key ring excluded every eligible clip. The structural suite pinned this as `expect(visit3.clips).toEqual([])`, commented "everything seen → graceful empty, no throw", and the spec's §3.1 only described resetting anti-repetition on *session expiry* (30min TTL / 2h cap). Everything about it read as a deliberate, load-bearing contract.
+
+It was not. At launch scale — 4 published makers, so the FEED's `distinct on (store_id)` yields ~4 candidates — an engaged visitor exhausts the pool in minutes and the feed serves "You're all caught up" while eligible footage exists. The persistent-player states froze on their current clip. The assertion was pinning a **dead surface** that nobody had chosen; it was the incidental consequence of a rule written for a case (empty *eligible* pool) that looks identical in the code and is completely different in meaning.
+
+**Decision:** Before treating a pinned assertion as a constraint to design around, establish which of two things it is: a guarantee someone chose, or a behaviour that merely fell out of the implementation and got frozen by the first test that observed it. The tells are cheap to check — does a spec or ADR state the behaviour as *intent*, or only describe an adjacent case? Does the comment explain *why* this is right, or only restate what the code does? Would a user of the system recognise the behaviour as a feature? "Graceful empty, no throw" was true and was never the point; the empty was graceful and also wrong.
+
+**1. Distinguish the case the rule was written for from the case it happens to cover.** The genuine guarantee — an empty *eligible* pool degrades to an empty Selection rather than throwing — was preserved exactly. Only the unchosen case (non-empty pool, exhausted ring) changed. Splitting them made the change safe and the re-pin defensible.
+
+**2. Re-pin the test, and say in the test why the old pin was wrong.** A silently-flipped assertion is indistinguishable from a regression someone papered over.
+
+**Reversibility:** reversible
+**Owner:** ceo
+**Affects:** all workers — any change that must alter a pinned test; spec/ADR authors describing degenerate cases
+**Status:** Adopted. Rule specified in KOL-video-engine-spec.md §3.1; implementation parked on `claude/blissful-sutherland-c2b515` (see next entry for why it is not merged).
+
+---
+
+## 2026-07-23 — A clean git merge is not evidence the change landed where you meant it to
+
+**Context:** The exhaustion-encore fix (previous entry) was QA-Lead PASSed at `risk:full` and merged to main. The merge reported exactly **one** conflict — an append collision in this file — and resolved every code file silently and cleanly. It had nonetheless filed the entire fix into `.archive/kol-v1-2026-07-22/`, dead archived code, and left the live `apps/kol` untouched. Caught only by diffing the merge result against the branch and finding it enormous when it should have been empty. Reverted with `git reset --keep` (not `--hard` — an unrelated session had uncommitted work in that checkout); nothing was pushed, so nothing propagated.
+
+**Mechanism:** the 2026-07-22 v1 archive moved the whole front-end with `git mv`. A branch forked before that archive modifies files at their old paths. Git's rename detection then does exactly what it is designed to do — follows the rename and re-applies the modification at the **new** path. A modify/**delete** collision conflicts loudly; a modify/**rename** resolves silently. The safety intuition "no conflicts means the merge was clean" is precisely inverted here: the rename made it quiet.
+
+**Decision:** When a branch has been open across a large-scale `git mv` — an archive, a monorepo reshuffle, a directory rename — **verify the merge landed by content, not by exit code.** Two cheap checks, both post-merge and pre-push: `git diff --stat <merge-result> <branch> -- <paths you changed>` should be empty or trivially small, and `git ls-tree` / `git grep` for a distinctive string from the change should find it at the path you expect. Do this *before* pushing, since local merges are free to revert and pushed ones are not.
+
+**Corollary — read the conflict you did get as a signal about the conflicts you didn't.** The one conflict was an append to this file, and the entry colliding with mine was *"v1 archived; v2 rebuild begins"*. That entry described the exact event that made the rest of the merge unsafe. It was treated as a chore to resolve rather than as information. A conflict in a decisions/changelog file is often the repo telling you what changed underneath your branch.
+
+**Corollary — check the branch's BASE, not just the target's remote sync.** `main` was verified level with `origin/main` (0/0) and that was mistaken for "safe to merge." Divergence that matters is between the branch's fork point and the target, and it was ~5 weeks of rebuild.
+
+**Reversibility:** reversible (merge reverted; no push occurred)
+**Owner:** ceo
+**Affects:** all workers — any merge of a branch older than a structural file move; QA-Lead merge checklist
+**Status:** Adopted. Encore fix remains parked on `claude/blissful-sutherland-c2b515`; only its docs were merged.
