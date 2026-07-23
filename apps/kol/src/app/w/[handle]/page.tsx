@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -131,5 +132,21 @@ export default async function WorldPage({ params }: { params: Promise<{ handle: 
   // world-open: the unfold is this surface; scrolling advances toward
   // WORLD_BROWSE — that stage change is B4's (StoreWorld's stage machinery
   // is the handoff point), not built here.
-  return renderStore(world.config, { initialStage: "world-open", pinnedClipId });
+  return (
+    <>
+      {/* Quiet way home for cold arrivals (E5: deep-linked worlds are a
+          full surface — without this, a visitor from a shared link or the
+          sitemap has no path to the rest of KOL). Sits above the docked
+          film plane (--z-film: 40); app-level tokens, not the world's
+          theme, so it reads as KOL chrome rather than seller UI. */}
+      <Link
+        href="/feed"
+        aria-label="Back to the KOL feed"
+        className="fixed left-3 top-3 z-[60] inline-flex min-h-9 items-center rounded-pill border border-line bg-surface/85 px-4 py-1.5 font-text text-caption uppercase tracking-[0.08em] text-ink backdrop-blur-sm transition-colors duration-state ease-kol hover:bg-surface"
+      >
+        ← KOL
+      </Link>
+      {renderStore(world.config, { initialStage: "world-open", pinnedClipId })}
+    </>
+  );
 }
