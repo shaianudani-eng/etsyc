@@ -26,3 +26,8 @@ all_skills_stored/
 .planning/state.local.json
 .vercel
 .env*
+
+# Browser-automation artifacts (snapshots, console logs, screenshots)
+.playwright-mcp/
+/*.jpeg
+/*.png
