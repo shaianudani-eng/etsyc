@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Bricolage_Grotesque,
   Fraunces,
@@ -35,6 +35,9 @@ const spaceMono = Space_Mono({
 
 const FONTSHARE_CSS =
   "https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap";
+
+// Mobile browser chrome tints to the sunbaked ground (D15a).
+export const viewport: Viewport = { themeColor: "#f6efe3" };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://etsyc.vercel.app"),
