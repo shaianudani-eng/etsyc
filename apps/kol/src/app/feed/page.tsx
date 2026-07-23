@@ -20,7 +20,11 @@ import { FeedGrowExperience } from "./FeedGrowExperience";
  * is signed in.
  */
 
-export const metadata: Metadata = { title: "Discover makers — KOL" };
+export const metadata: Metadata = {
+  title: "Discover makers — KOL",
+  description:
+    "Today's makers on film — watch them work, step inside their worlds, and buy straight from the bench.",
+};
 
 export default async function FeedPage() {
   const supabase = await createClient();
