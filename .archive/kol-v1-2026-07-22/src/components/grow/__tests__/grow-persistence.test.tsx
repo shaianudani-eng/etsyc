@@ -243,7 +243,10 @@ describe("B2 grow — film-frame persistence across FEED → GROWN", () => {
     expect(card.style.transform).toBe("");
 
     fireEvent.keyDown(document, { key: "Escape" });
-    await waitFor(() => expect(neighbor.style.transform).toBe(""), { timeout: 2000 });
+    // budget comes from asyncUtilTimeout (vitest.setup.ts) — the release is
+    // gated on GrowProvider's chained REAL ungrow timers, so it needs more
+    // than waitFor's 1s default, and a local override would only cap it
+    await waitFor(() => expect(neighbor.style.transform).toBe(""));
   });
 
   it("ungrow returns the film to the card on the ungrow edge and never pauses it", async () => {
@@ -252,12 +255,10 @@ describe("B2 grow — film-frame persistence across FEED → GROWN", () => {
 
     fireEvent.keyDown(document, { key: "Escape" });
     // §2.5 out: chrome leaves first, THEN the film FLIPs back at 405ms
-    await waitFor(() => expect(frame.dataset.filmEdge).toBe("ungrow"), { timeout: 2000 });
+    await waitFor(() => expect(frame.dataset.filmEdge).toBe("ungrow"));
     expect(frame.dataset.filmEdgeMs).toBe("405");
 
-    await waitFor(() => expect(container.querySelector("[data-grow-column]")).toBeNull(), {
-      timeout: 2000,
-    });
+    await waitFor(() => expect(container.querySelector("[data-grow-column]")).toBeNull());
     // frame identity + geometry: back at the card rect, in-flow, playing
     expect(frameOf(container)).toBe(frame);
     expect(frontVideo(frame)).toBe(filmBefore);

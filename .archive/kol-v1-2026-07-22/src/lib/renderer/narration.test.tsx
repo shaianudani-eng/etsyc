@@ -140,9 +140,11 @@ describe("NARRATE_SHRINK — the fallback chain in the dock", () => {
 
     fireEvent.click(getByRole("button", { name: "Narrate" }));
 
-    await waitFor(() => expect(narrationStatus(container)).toBe("fallback"), {
-      timeout: 3000,
-    });
+    // budget comes from asyncUtilTimeout (vitest.setup.ts) — the fallback
+    // lands only after the hook's REAL RETRY_DELAY_MS (800ms) elapses, so
+    // it needs more than waitFor's 1s default, and a local override would
+    // only cap it below the global
+    await waitFor(() => expect(narrationStatus(container)).toBe("fallback"));
     expect(selectNarration).toHaveBeenCalledTimes(2); // one call + ONE retry
     expect(frontVideo(frame)!.getAttribute("src")).toBe(heroSrc);
     expect(container.textContent).not.toContain("Couldn’t load this clip");
