@@ -377,3 +377,18 @@ writers import, three mutations verified red). Seventh instance — the `kol_sid
 **Owner:** solo session (deployment handoff)
 **Affects:** anyone applying SQL to the live project; anyone diffing DB content against seed files
 **Status:** Adopted.
+
+---
+
+## 2026-07-23 — Alt text describes intended content, not implementation status
+
+**Context:** Every seeded image carried a parenthetical in its alt — "Storm Oak Bowl, oiled finish (placeholder product frame)". Sighted visitors saw a styled gradient frame and read the product name; screen-reader users heard the implementation note. A jargon sweep over rendered *text* missed it entirely because alt lives in an attribute.
+
+**Decision:** Alt text states what the image is *of*, never its production status. Stripped the parentheticals from the live DB (`media.alt` and — the one that actually renders — the duplicated copies inside `stores.config`) and from the seed file, so a re-seed can't regress it. The honest-about-demo-content argument loses to the equivalence argument: implementation status is not content, and "placeholder" in alt is the accessibility equivalent of visible lorem ipsum.
+
+**Note for auditors:** seeded alt text is duplicated in two places — `media.alt` and `stores.config` blocks. The renderer reads config. Fixing only `media.alt` changes nothing on screen.
+
+**Reversibility:** reversible (seed file is ground truth; re-seed restores whatever the file says)
+**Owner:** solo session (deployment handoff)
+**Affects:** anyone writing seed content or block props; a11y reviewers
+**Status:** Adopted.
