@@ -1,8 +1,24 @@
 # Changelog
 
-All notable changes to GSA Startup Kit are documented here.
+All notable changes to this repo — the KOL product and the agent kit that builds it.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## KOL — 2026-07-22 · first public deployment
+
+### Added
+- **KOL is live at [etsyc.vercel.app](https://etsyc.vercel.app)** on its own Supabase project — 16 migrations, seeded worlds, deployed from `deploy/canonical`
+- Real landing page (brand hero + live maker index, ISR), replacing the /preview stub
+- Branded 404, favicon, theme-color, Open Graph tags + generated share cards (site-wide and per-world)
+- robots.txt, dynamic sitemap.xml, JSON-LD (WebSite + per-world Person), baseline security headers
+- "← KOL" chrome on deep-linked worlds; focus-visible on all new interactive elements
+
+### Fixed
+- Seed data mojibake repaired in-place in the live DB (clipboard-transport corruption; see DECISIONS.md)
+- Feed empty-state copy now honest for anti-repetition ring exhaustion ("You're all caught up")
+- Seller dashboard no longer leaks internal sprint jargon
 
 ---
 
