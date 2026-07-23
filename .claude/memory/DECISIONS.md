@@ -364,3 +364,16 @@ writers import, three mutations verified red). Seventh instance — the `kol_sid
 **Owner:** ceo
 **Affects:** all workers — mutation testing procedure; any change that widens an input domain
 **Status:** Adopted.
+
+---
+
+## 2026-07-22 — Production data was repaired in-place; clipboard is banned as an SQL transport
+
+**Context:** The seed for the live Supabase project (`zmlkduvvlzfgoqzjxzzl`, Shaian's own — see memory) was originally applied by pasting `pbcopy`'d SQL into the dashboard SQL editor. The clipboard transit MacRoman-mojibaked every multi-byte character (— – × · á § → °) across `profiles`, `stores` (incl. `config` jsonb), `products`, and `product_specs` — user-visible as "Tom√°s Ferreira" on the landing page.
+
+**Decision:** Repaired IN-PLACE via the authorized Supabase MCP (`execute_sql`) with a pg_temp reverse-`replace()` over all seeded text columns; verified zero corrupt rows after. The seed FILES were always correct — no repo change. All future SQL against the live DB goes through the Supabase MCP or psql, never a clipboard paste.
+
+**Reversibility:** irreversible (data mutation outside migrations, no backup taken — acceptable: seed files remain ground truth and are idempotent upserts)
+**Owner:** solo session (deployment handoff)
+**Affects:** anyone applying SQL to the live project; anyone diffing DB content against seed files
+**Status:** Adopted.
