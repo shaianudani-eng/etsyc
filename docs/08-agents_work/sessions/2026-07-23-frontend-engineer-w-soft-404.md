@@ -1,0 +1,10 @@
+---
+date: 2026-07-23
+role: frontend-engineer
+task: w-soft-404 (deep-linked world returns a real 404)
+branch: fix/w-soft-404
+tier: lite
+qa_verdict: PENDING
+---
+
+`/w/does-not-exist` and `/w/seed-probe-unpublished` both answered **200** on production while rendering the branded 404 body — a soft 404 that search engines index as real content. Reproduced the mechanism in an isolated Next 16.2.10 app (four variants, same version as ours) rather than guessing: a page whose `notFound()` sits under a `loading.tsx` boundary returns 200; the identical page without that boundary returns 404; the check hoisted into a **segment layout** returns 404 *with the skeleton intact*. Next 16 streams metadata too, so the `notFound()` in `generateMetadata` never held the status either — the comment claiming it would was wrong about the framework, not about the intent. Fix is placement: new `layout.tsx` owns the gate, `getWorld` extracted to `get-world.ts` so layout + `generateMetadata` + page share one `react.cache`'d read (**one** DB round trip per request, counter-verified in the repro). `loading.tsx` untouched — the zero-CLS opening geometry was never the problem; stream probe confirms the skeleton still flushes at ~74ms with the resolved world arriving behind it. `soft-404.test.ts` pins the shape in the house source-conformance pattern (cookie-canon precedent): the segment's own assertions plus a tree census, so a future `loading.tsx` over an existence check fails there instead of in production; mutation-verified red (3 failures) with the layout removed. Gates: typecheck 0, lint 0, 881/881 tests (875 baseline + 6 new, 9 live files skipped — no env), production `next build` clean, hero-persistence + render-store green. **Known exception, listed not hidden:** `/seller/products/[productId]` has the identical defect and is on the test's exemption roster — its `notFound()` interleaves with an auth/owner-scope `redirect()` chain, so it is a different change, and it sits behind sign-in where no crawler reaches it.

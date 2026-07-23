@@ -392,3 +392,16 @@ writers import, three mutations verified red). Seventh instance — the `kol_sid
 **Owner:** solo session (deployment handoff)
 **Affects:** anyone writing seed content or block props; a11y reviewers
 **Status:** Adopted.
+
+---
+
+## 2026-07-23 — A route's 404 is decided ABOVE its loading boundary, never inside it
+
+**Context:** `/w/does-not-exist` and every unpublished handle answered 200 with the branded 404 body — a soft 404, indexable as real content. The route already called `notFound()` in both `generateMetadata` and the page, and a code comment asserted metadata resolves before streaming so the status was still settable. That was wrong for Next 16: `loading.tsx` is a Suspense boundary, the shell and its status line flush before anything under it resolves, and metadata streams too. Confirmed in an isolated same-version repro: same page without `loading.tsx` → real 404; with it → 200.
+
+**Decision:** In any segment with a `loading.tsx`, the existence check lives in a **`layout.tsx` for that segment** — layouts render outside their own segment's loading boundary, so `notFound()` there sets a real status while the skeleton survives untouched. Deleting `loading.tsx` also fixes the status and is NOT the remedy: the skeleton is the surface's zero-CLS opening geometry (§0.3). The shared lookup goes in its own module wrapped in `react.cache` so the layout's check costs no extra round trip — `cache` only dedupes calls to the same function object, so a re-declared copy per file would silently double the reads. `src/app/w/[handle]/soft-404.test.ts` enforces both halves with a tree census; `/seller/products/[productId]` is a listed exemption (its `notFound()` is entangled with an auth redirect chain, and it is behind sign-in).
+
+**Reversibility:** reversible (pure route-structure change; no schema, no data)
+**Owner:** solo session (deployment handoff)
+**Affects:** anyone adding a `loading.tsx`, and anyone whose page 404s on a fetched row
+**Status:** Adopted.
