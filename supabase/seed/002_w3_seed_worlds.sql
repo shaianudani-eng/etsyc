@@ -275,7 +275,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000011",
         "src": "/seed/hollowgrain/portrait.svg",
-        "alt": "Wren Hollis at the lathe (placeholder portrait frame)",
+        "alt": "Wren Hollis at the lathe",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.5,
@@ -285,7 +285,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000012",
         "src": "/seed/hollowgrain/storm-oak-bowl.svg",
-        "alt": "Storm Oak Bowl, oiled finish (placeholder product frame)",
+        "alt": "Storm Oak Bowl, oiled finish",
         "aspect": "1:1",
         "focalPoint": {
           "x": 0.5,
@@ -295,7 +295,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000013",
         "src": "/seed/hollowgrain/spalted-vessel.svg",
-        "alt": "Spalted Beech Vessel, ink-line figuring (placeholder product frame)",
+        "alt": "Spalted Beech Vessel, ink-line figuring",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.5,
@@ -305,7 +305,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000014",
         "src": "/seed/hollowgrain/walnut-boards.svg",
-        "alt": "Pair of walnut serving boards (placeholder product frame)",
+        "alt": "Pair of walnut serving boards",
         "aspect": "3:2",
         "focalPoint": {
           "x": 0.5,
@@ -721,7 +721,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000021",
         "src": "/seed/isoldeglass/portrait.svg",
-        "alt": "Isolde Brandt at the furnace door (placeholder portrait frame)",
+        "alt": "Isolde Brandt at the furnace door",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.46,
@@ -731,7 +731,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000022",
         "src": "/seed/isoldeglass/sea-smoke-tumblers.svg",
-        "alt": "Sea Smoke Tumblers, set of four (placeholder product frame)",
+        "alt": "Sea Smoke Tumblers, set of four",
         "aspect": "1:1",
         "focalPoint": {
           "x": 0.5,
@@ -741,7 +741,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000023",
         "src": "/seed/isoldeglass/amber-swell-vase.svg",
-        "alt": "Amber Swell Vase, lit from behind (placeholder product frame)",
+        "alt": "Amber Swell Vase, lit from behind",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.5,
@@ -751,7 +751,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000024",
         "src": "/seed/isoldeglass/tide-line-carafe.svg",
-        "alt": "Tide Line Carafe with two glasses (placeholder product frame)",
+        "alt": "Tide Line Carafe with two glasses",
         "aspect": "3:2",
         "focalPoint": {
           "x": 0.44,
@@ -1165,7 +1165,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000031",
         "src": "/seed/maraleather/portrait.svg",
-        "alt": "Mara Okafor at the stitching pony (placeholder portrait frame)",
+        "alt": "Mara Okafor at the stitching pony",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.5,
@@ -1175,7 +1175,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000032",
         "src": "/seed/maraleather/ninefold-belt.svg",
-        "alt": "Ninefold Belt coiled on the bench (placeholder product frame)",
+        "alt": "Ninefold Belt coiled on the bench",
         "aspect": "3:2",
         "focalPoint": {
           "x": 0.5,
@@ -1185,7 +1185,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000033",
         "src": "/seed/maraleather/oxblood-sleeve.svg",
-        "alt": "Card Sleeve in oxblood bridle leather (placeholder product frame)",
+        "alt": "Card Sleeve in oxblood bridle leather",
         "aspect": "1:1",
         "focalPoint": {
           "x": 0.5,
@@ -1195,7 +1195,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000034",
         "src": "/seed/maraleather/weekend-holdall.svg",
-        "alt": "Weekend Holdall, one hide, brass hardware (placeholder product frame)",
+        "alt": "Weekend Holdall, one hide, brass hardware",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.5,
@@ -1592,7 +1592,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000041",
         "src": "/seed/ferreirapress/portrait.svg",
-        "alt": "Tomás Ferreira pulling a proof on the Vandercook (placeholder portrait frame)",
+        "alt": "Tomás Ferreira pulling a proof on the Vandercook",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.48,
@@ -1602,7 +1602,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000042",
         "src": "/seed/ferreirapress/broadside-12.svg",
-        "alt": "Broadside No. 12, vermilion and black on cream (placeholder product frame)",
+        "alt": "Broadside No. 12, vermilion and black on cream",
         "aspect": "4:5",
         "focalPoint": {
           "x": 0.5,
@@ -1612,7 +1612,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000043",
         "src": "/seed/ferreirapress/caslon-notebook.svg",
-        "alt": "Hand-bound notebook, Caslon edition (placeholder product frame)",
+        "alt": "Hand-bound notebook, Caslon edition",
         "aspect": "1:1",
         "focalPoint": {
           "x": 0.5,
@@ -1622,7 +1622,7 @@ $cfg${
       {
         "id": "5eed0007-0000-4000-8000-000000000044",
         "src": "/seed/ferreirapress/press-room.svg",
-        "alt": "The press room: type cases and the Vandercook (placeholder frame)",
+        "alt": "The press room: type cases and the Vandercook",
         "aspect": "3:2",
         "focalPoint": {
           "x": 0.42,
@@ -1960,22 +1960,22 @@ where (stores.owner_id, stores.handle, stores.name, stores.craft, stores.bio, st
 -- --- 4 · media (config-referenced images; kind 'image') ----------------------
 insert into public.media (id, owner_id, store_id, kind, src, alt, aspect, focal_point)
 values
-  ('5eed0007-0000-4000-8000-000000000011', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/portrait.svg', 'Wren Hollis at the lathe (placeholder portrait frame)', '4:5', '{"x":0.5,"y":0.35}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000012', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/storm-oak-bowl.svg', 'Storm Oak Bowl, oiled finish (placeholder product frame)', '1:1', '{"x":0.5,"y":0.55}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000013', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/spalted-vessel.svg', 'Spalted Beech Vessel, ink-line figuring (placeholder product frame)', '4:5', '{"x":0.5,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000014', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/walnut-boards.svg', 'Pair of walnut serving boards (placeholder product frame)', '3:2', '{"x":0.5,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000021', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/portrait.svg', 'Isolde Brandt at the furnace door (placeholder portrait frame)', '4:5', '{"x":0.46,"y":0.34}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000022', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/sea-smoke-tumblers.svg', 'Sea Smoke Tumblers, set of four (placeholder product frame)', '1:1', '{"x":0.5,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000023', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/amber-swell-vase.svg', 'Amber Swell Vase, lit from behind (placeholder product frame)', '4:5', '{"x":0.5,"y":0.48}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000024', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/tide-line-carafe.svg', 'Tide Line Carafe with two glasses (placeholder product frame)', '3:2', '{"x":0.44,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000031', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/portrait.svg', 'Mara Okafor at the stitching pony (placeholder portrait frame)', '4:5', '{"x":0.5,"y":0.33}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000032', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/ninefold-belt.svg', 'Ninefold Belt coiled on the bench (placeholder product frame)', '3:2', '{"x":0.5,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000033', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/oxblood-sleeve.svg', 'Card Sleeve in oxblood bridle leather (placeholder product frame)', '1:1', '{"x":0.5,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000034', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/weekend-holdall.svg', 'Weekend Holdall, one hide, brass hardware (placeholder product frame)', '4:5', '{"x":0.5,"y":0.45}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000041', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/portrait.svg', 'Tomás Ferreira pulling a proof on the Vandercook (placeholder portrait frame)', '4:5', '{"x":0.48,"y":0.32}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000042', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/broadside-12.svg', 'Broadside No. 12, vermilion and black on cream (placeholder product frame)', '4:5', '{"x":0.5,"y":0.42}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000043', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/caslon-notebook.svg', 'Hand-bound notebook, Caslon edition (placeholder product frame)', '1:1', '{"x":0.5,"y":0.5}'::jsonb),
-  ('5eed0007-0000-4000-8000-000000000044', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/press-room.svg', 'The press room: type cases and the Vandercook (placeholder frame)', '3:2', '{"x":0.42,"y":0.5}'::jsonb)
+  ('5eed0007-0000-4000-8000-000000000011', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/portrait.svg', 'Wren Hollis at the lathe', '4:5', '{"x":0.5,"y":0.35}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000012', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/storm-oak-bowl.svg', 'Storm Oak Bowl, oiled finish', '1:1', '{"x":0.5,"y":0.55}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000013', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/spalted-vessel.svg', 'Spalted Beech Vessel, ink-line figuring', '4:5', '{"x":0.5,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000014', '5eed0001-0000-4000-8000-000000000001', '5eed0002-0000-4000-8000-000000000001', 'image', '/seed/hollowgrain/walnut-boards.svg', 'Pair of walnut serving boards', '3:2', '{"x":0.5,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000021', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/portrait.svg', 'Isolde Brandt at the furnace door', '4:5', '{"x":0.46,"y":0.34}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000022', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/sea-smoke-tumblers.svg', 'Sea Smoke Tumblers, set of four', '1:1', '{"x":0.5,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000023', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/amber-swell-vase.svg', 'Amber Swell Vase, lit from behind', '4:5', '{"x":0.5,"y":0.48}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000024', '5eed0001-0000-4000-8000-000000000002', '5eed0002-0000-4000-8000-000000000002', 'image', '/seed/isoldeglass/tide-line-carafe.svg', 'Tide Line Carafe with two glasses', '3:2', '{"x":0.44,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000031', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/portrait.svg', 'Mara Okafor at the stitching pony', '4:5', '{"x":0.5,"y":0.33}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000032', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/ninefold-belt.svg', 'Ninefold Belt coiled on the bench', '3:2', '{"x":0.5,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000033', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/oxblood-sleeve.svg', 'Card Sleeve in oxblood bridle leather', '1:1', '{"x":0.5,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000034', '5eed0001-0000-4000-8000-000000000003', '5eed0002-0000-4000-8000-000000000003', 'image', '/seed/maraleather/weekend-holdall.svg', 'Weekend Holdall, one hide, brass hardware', '4:5', '{"x":0.5,"y":0.45}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000041', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/portrait.svg', 'Tomás Ferreira pulling a proof on the Vandercook', '4:5', '{"x":0.48,"y":0.32}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000042', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/broadside-12.svg', 'Broadside No. 12, vermilion and black on cream', '4:5', '{"x":0.5,"y":0.42}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000043', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/caslon-notebook.svg', 'Hand-bound notebook, Caslon edition', '1:1', '{"x":0.5,"y":0.5}'::jsonb),
+  ('5eed0007-0000-4000-8000-000000000044', '5eed0001-0000-4000-8000-000000000004', '5eed0002-0000-4000-8000-000000000004', 'image', '/seed/ferreirapress/press-room.svg', 'The press room: type cases and the Vandercook', '3:2', '{"x":0.42,"y":0.5}'::jsonb)
 on conflict (id) do update set
   owner_id = excluded.owner_id, store_id = excluded.store_id, kind = excluded.kind,
   src = excluded.src, alt = excluded.alt, aspect = excluded.aspect, focal_point = excluded.focal_point
