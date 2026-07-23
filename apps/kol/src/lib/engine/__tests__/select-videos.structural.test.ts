@@ -233,6 +233,56 @@ describe("selectVideos — structural suite", () => {
     expect(visit4.clips.map((c) => c.videoId)).toEqual(["v2"]);
   });
 
+  it("laps cycle the whole pool under a NON-passthrough ranker — the encore is ranker-independent", async () => {
+    // Launch scale: 4 published makers → ~4 FEED candidates (§3.1's premise).
+    const catalogue = ["v1", "v2", "v3", "v4"].map((id) => makeCandidate(id));
+    const deps = {
+      eligible: () => Promise.resolve(catalogue),
+      ranker: seededShuffleRanker, // NOT passthrough — order is seed-derived
+      ring: makeMemoryRing(), // persists across all eight visits
+    };
+
+    const picked: string[] = [];
+    for (let visit = 0; visit < 8; visit += 1) {
+      const selection = await selectVideos(makeCtx({ limit: 1 }), deps);
+      expect(selection.clips).toHaveLength(1); // never a dead surface
+      picked.push(selection.clips[0]!.videoId);
+    }
+
+    // Two complete laps: each lap covers the pool exactly once, so within a
+    // lap suppression still holds and the encore only fires at the boundary.
+    const lapOne = picked.slice(0, 4);
+    const lapTwo = picked.slice(4);
+    expect(new Set(lapOne)).toEqual(new Set(catalogue.map((c) => c.videoId)));
+    expect(new Set(lapTwo)).toEqual(new Set(catalogue.map((c) => c.videoId)));
+  });
+
+  it("a ring that cannot PERSIST (the feed's RSC write-swallow) re-serves a stable lap, never empty", async () => {
+    // lib/feed/select.ts reads the ring in an RSC render but its cookie write
+    // throws and is swallowed — so the ring never advances. Combined with an
+    // exhausted ring this must degrade to a stable repeat, not to empty.
+    const catalogue = [makeCandidate("v1"), makeCandidate("v2")];
+    const saturated = ["v1", "v2"]; // as persisted earlier by a Server Action
+    const nonPersistingRing: KeyRingStore = {
+      read: () => Promise.resolve(saturated),
+      write: () => Promise.resolve(), // the swallowed set
+    };
+    const deps = {
+      eligible: () => Promise.resolve(catalogue),
+      ranker: passthroughRanker,
+      ring: nonPersistingRing,
+    };
+
+    const first = await selectVideos(makeCtx({ limit: 2 }), deps);
+    const second = await selectVideos(makeCtx({ limit: 2 }), deps);
+
+    // Encore fires on every read, and each reload shows the SAME clips —
+    // which is the documented feed semantics ("a reload must not exclude the
+    // clips just shown"), not a bug.
+    expect(first.clips.map((c) => c.videoId)).toEqual(["v1", "v2"]);
+    expect(second.clips.map((c) => c.videoId)).toEqual(["v1", "v2"]);
+  });
+
   it("exhaustion encore stays inside the eligible set — a thankyou clip cannot ride the fresh lap", async () => {
     const fixture = [
       makeCandidate("feed-clip", { pageEligibility: ["feed"] }),
