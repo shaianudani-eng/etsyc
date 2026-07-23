@@ -29,6 +29,7 @@ async function getLiveMakers(): Promise<MakerEntry[]> {
       .from("stores")
       .select("handle, config")
       .eq("published", true)
+      .order("handle")
       .limit(8);
     return (data ?? []).flatMap((store) => {
       const maker = (store.config as { maker?: Record<string, unknown> })
@@ -52,8 +53,23 @@ async function getLiveMakers(): Promise<MakerEntry[]> {
 export default async function Home() {
   const makers = await getLiveMakers();
 
+  // Structured data: what KOL is, machine-readably. Values mirror the
+  // rendered page only — nothing here that isn't visible to a person.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "KOL",
+    url: "https://etsyc.vercel.app",
+    description:
+      "A video-native marketplace where every shop is a maker's world — real people on film, not a product grid.",
+  };
+
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-page flex-col justify-center gap-[var(--space-6)] px-[var(--space-2)] py-[var(--space-6)] md:flex-row md:items-center md:justify-between md:gap-[var(--space-8)] md:px-[var(--space-6)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="flex max-w-[44rem] flex-col gap-[var(--space-4)]">
         <p className="font-text text-caption uppercase tracking-[0.08em] text-muted">
           KOL · A marketplace of makers

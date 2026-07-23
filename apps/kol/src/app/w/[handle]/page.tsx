@@ -132,8 +132,23 @@ export default async function WorldPage({ params }: { params: Promise<{ handle: 
   // world-open: the unfold is this surface; scrolling advances toward
   // WORLD_BROWSE — that stage change is B4's (StoreWorld's stage machinery
   // is the handoff point), not built here.
+  // Structured data mirroring the visible page: this world is a person's
+  // shop. Fields come straight from the validated store config.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: world.config.maker.displayName,
+    jobTitle: world.config.maker.craft,
+    description: world.config.maker.bio,
+    url: `https://etsyc.vercel.app/w/${handle}`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Quiet way home for cold arrivals (E5: deep-linked worlds are a
           full surface — without this, a visitor from a shared link or the
           sitemap has no path to the rest of KOL). Sits above the docked
