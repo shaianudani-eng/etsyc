@@ -364,3 +364,24 @@ writers import, three mutations verified red). Seventh instance — the `kol_sid
 **Owner:** ceo
 **Affects:** all workers — mutation testing procedure; any change that widens an input domain
 **Status:** Adopted.
+
+---
+
+## 2026-07-23 — A pinned test asserts a behaviour, not necessarily a guarantee — establish which before defending it
+
+**Context:** The video engine's stage 3 returned an empty selection once the session key ring excluded every eligible clip. The structural suite pinned this as `expect(visit3.clips).toEqual([])`, commented "everything seen → graceful empty, no throw", and the spec's §3.1 only described resetting anti-repetition on *session expiry* (30min TTL / 2h cap). Everything about it read as a deliberate, load-bearing contract.
+
+It was not. At launch scale — 4 published makers, so the FEED's `distinct on (store_id)` yields ~4 candidates — an engaged visitor exhausts the pool in minutes and the feed serves "You're all caught up" while eligible footage exists. The persistent-player states froze on their current clip. The assertion was pinning a **dead surface** that nobody had chosen; it was the incidental consequence of a rule written for a case (empty *eligible* pool) that looks identical in the code and is completely different in meaning.
+
+**Decision:** Before treating a pinned assertion as a constraint to design around, establish which of two things it is: a guarantee someone chose, or a behaviour that merely fell out of the implementation and got frozen by the first test that observed it. The tells are cheap to check — does a spec or ADR state the behaviour as *intent*, or only describe an adjacent case? Does the comment explain *why* this is right, or only restate what the code does? Would a user of the system recognise the behaviour as a feature? "Graceful empty, no throw" was true and was never the point; the empty was graceful and also wrong.
+
+Two supporting notes from this change:
+
+**1. Distinguish the case the rule was written for from the case it happens to cover.** The genuine guarantee — an empty *eligible* pool degrades to an empty Selection rather than throwing — was preserved exactly. Only the unchosen case (non-empty pool, exhausted ring) changed. Splitting them made the change safe and the re-pin defensible; had they stayed conflated, "fixing" the empty would have looked like removing a real invariant.
+
+**2. Re-pin the test, and say in the test why the old pin was wrong.** The replacement assertion carries the reason (`§3.1`, "never a dead surface while eligible footage exists"). A silently-flipped assertion is indistinguishable from a regression someone papered over, and the next reader has no way to tell that the flip was the deliberate half of the change.
+
+**Reversibility:** reversible
+**Owner:** ceo
+**Affects:** all workers — any change that must alter a pinned test; spec/ADR authors describing degenerate cases
+**Status:** Adopted and implemented on `claude/blissful-sutherland-c2b515` (engine exhaustion encore, QA-Lead PASS at `risk:full`, spec §3.1 + OQ-V6).
