@@ -1,51 +1,44 @@
-# GSA Startup Kit
-*Autonomous C-suite agent system for Claude Code. Drop into a new repo, fill in placeholders, ship.*
+# KOL — every shop is a maker's world
 
-> **2026-05-25 — re-baselined on the Beamix agent system.** The previous GSA kit (31 agents · 426 skills · 10 commands) is archived intact at [.archive/pre-beamix-bundle-2026-05-25/](.archive/pre-beamix-bundle-2026-05-25/). This README, [CLAUDE.md](CLAUDE.md), and [AGENTS.md](AGENTS.md) now describe the new baseline.
+A video-native marketplace: real makers on film, not a product grid. Visitors watch letterpress printers, leatherworkers, glassblowers, and woodturners at work, step inside their worlds, and buy straight from the bench.
 
-## What's inside
+**Live:** [etsyc.vercel.app](https://etsyc.vercel.app)
 
-| Layer | Path | Count |
-|-------|------|-------|
-| Agents (3-layer: CEO → C-suite → Workers) | `.claude/agents/` (mirrored to `.agent/agents/`) | 51 `.md` |
-| Skills (curated, on-demand, MANIFEST-indexed) | `.claude/skills/` | 147 |
-| Hooks (pre/post tool, schema-lint, context monitor, statusline) | `.claude/hooks/` | 7 |
-| Slash commands | `.claude/commands/` | 13 |
-| QA-tier auto-classifier (4 tiers: trivial → irreversible) | `.claude/qa-tier-floor.yml` | 1 |
-| Permissions + MCP grants | `.claude/settings.json` (+ `.proposed`) | 2 |
-| Memory templates | `.claude/memory/{DECISIONS,LONG-TERM,USER-INSIGHTS,CODEBASE-MAP}.md` | 4 |
-| CI workflows (staged, not installed) | `new agents-skills-workflows-system/.github/workflows/` | 2 |
+## The product
 
-## 30-second pitch
+| Surface | Route | What it is |
+|---------|-------|-----------|
+| Landing | `/` | Brand front door + live maker index |
+| Discovery feed | `/feed` | The magazine — engine-selected maker films, tap to grow |
+| A maker's world | `/w/[handle]` | Deep-linkable, seller-themed world with products and story |
+| Sign in / join | `/sign-in` | Passwordless email code (OTP) |
+| Seller dashboard | `/seller` | Role-gated; clips, products, tagging |
 
-- **Every task starts at the CEO.** The CEO asks questions, assembles the right C-suite, delegates, synthesizes one answer.
-- **No merge without QA-Lead PASS.** 4-tier risk classification is auto-set by file-path patterns; the CEO and CTO cannot override.
-- **Workers run in isolated git worktrees.** Atomic commits, structured JSON returns, no sneaky cross-scope edits.
-- **Memory is explicit.** Decisions, codebase map, user insights, and long-term facts live in 4 versioned files with hard caps. No mystery context.
-- **Models are routed deliberately.** Sonnet 4.6 default · Opus 4.7 for synthesis/design/orchestration · Haiku 4.5 for lint/lookup. Specified in every brief.
+## Stack & layout
 
-## First-run
+- **App:** [`apps/kol`](apps/kol) — Next.js 16 (App Router), React 19, TypeScript strict, Tailwind
+- **Database:** Supabase — schema in [`supabase/migrations`](supabase/migrations) (16 migrations), demo data in [`supabase/seed`](supabase/seed); RLS is the trust boundary
+- **Video engine:** `apps/kol/src/lib/engine` — eligibility → scoring → anti-repetition pipeline ([spec](docs/03-system-design/KOL-video-engine-spec.md))
+- **Hosting:** Vercel, production branch `deploy/canonical`
 
-1. Read [TEMPLATE-USAGE.md](TEMPLATE-USAGE.md) — placeholder list + replacement script.
-2. Fill in `CLAUDE.md` → Project State section.
-3. Fill in `.claude/memory/LONG-TERM.md`.
-4. (Optional) Wire CI by copying the workflows from the staging folder to `.github/workflows/`.
-5. Smoke-test:
-   ```
-   /name ceo-smoke-test
-   /color gold
-   "Read CLAUDE.md and tell me what's still a placeholder."
-   ```
+## Develop
 
-## Documentation
+```bash
+cd apps/kol
+pnpm install
+cp .env.example .env.local   # fill in Supabase keys + ENGINE_COOKIE_SECRET
+pnpm dev
+```
 
-| File | What it covers |
-|------|---------------|
-| [CLAUDE.md](CLAUDE.md) | Auto-loaded every session — team, stack, memory, QA gate, layer contracts, rules. |
-| [AGENTS.md](AGENTS.md) | Full routing table — who handles what, model assignments. |
-| [TEMPLATE-USAGE.md](TEMPLATE-USAGE.md) | Placeholder list, first-run checklist, smoke test. |
-| [SKILLS_SOURCE.md](SKILLS_SOURCE.md) | Skill library provenance (preserved from prior kit). |
-| `.archive/pre-beamix-bundle-2026-05-25/README.md` | The previous GSA kit's README, preserved verbatim. |
+```bash
+pnpm typecheck && pnpm test   # 875+ unit tests; live-* suites need real DB keys
+```
+
+Design docs and specs live in [`docs/03-system-design`](docs/03-system-design); session logs in [`docs/08-agents_work`](docs/08-agents_work).
+
+## The agent system
+
+This repo also carries the autonomous C-suite agent kit that builds KOL (CEO → C-suite → workers, QA-tiered merges, worktree isolation). See [CLAUDE.md](CLAUDE.md) for the operating contract, [AGENTS.md](AGENTS.md) for the routing table, and [TEMPLATE-USAGE.md](TEMPLATE-USAGE.md) for reusing the kit in another project. The pre-2026-05-25 kit is archived at `.archive/pre-beamix-bundle-2026-05-25/`.
 
 ## License
 
