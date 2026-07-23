@@ -75,11 +75,11 @@ describe("antiRepetition", () => {
 
   it("falls back to videoId when anti_repetition_key is null", () => {
     const candidates = [makeCandidate("v1"), makeCandidate("v2")];
-    const { clips, ring } = antiRepetition(candidates, [], 10);
+    const { clips } = antiRepetition(candidates, [], 10);
     expect(clips.map((c) => c.antiRepetitionKey)).toEqual(["v1", "v2"]);
     // And a ring holding the videoId suppresses the null-key candidate next time.
-    const second = antiRepetition(candidates, ring, 10);
-    expect(second.clips).toEqual([]);
+    const second = antiRepetition(candidates, ["v1"], 10);
+    expect(second.clips.map((c) => c.videoId)).toEqual(["v2"]);
   });
 
   it("truncates to limit AFTER dedupe — a dropped duplicate never consumes a slot", () => {
@@ -116,6 +116,44 @@ describe("antiRepetition", () => {
     const { clips, ring } = antiRepetition([makeCandidate("v1")], ["k1"], 0);
     expect(clips).toEqual([]);
     expect(ring).toEqual(["k1"]);
+  });
+
+  it("exhaustion encore: a ring holding every candidate key re-serves a fresh lap on a RESET ring", () => {
+    const candidates = [makeCandidate("a"), makeCandidate("b"), makeCandidate("c")];
+    const { clips, ring } = antiRepetition(candidates, ["a", "b", "c"], 2);
+    expect(clips.map((c) => c.videoId)).toEqual(["a", "b"]); // ranked order, limit still applies
+    // Ring reset to the encore lap's keys ONLY — the saturated ring is gone,
+    // so within-lap suppression works again (append would exhaust forever).
+    expect(ring).toEqual(["a", "b"]);
+  });
+
+  it("encore does NOT fire while any candidate survives the ring — partial stays partial", () => {
+    const candidates = [makeCandidate("a"), makeCandidate("b")];
+    const { clips, ring } = antiRepetition(candidates, ["a"], 10);
+    expect(clips.map((c) => c.videoId)).toEqual(["b"]);
+    expect(ring).toEqual(["b", "a"]); // normal prepend — no reset
+  });
+
+  it("encore still collapses within-batch duplicate keys and respects limit", () => {
+    const candidates = [
+      makeCandidate("take-1", { antiRepetitionKey: "wheel-shot" }),
+      makeCandidate("take-2", { antiRepetitionKey: "wheel-shot" }),
+      makeCandidate("other"),
+    ];
+    const { clips } = antiRepetition(candidates, ["wheel-shot", "other"], 10);
+    expect(clips.map((c) => c.videoId)).toEqual(["take-1", "other"]);
+    const keys = clips.map((c) => c.antiRepetitionKey);
+    expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it("encore never fires on an empty candidate set or limit 0 — ring passes through untouched", () => {
+    const emptyPool = antiRepetition([], ["k1", "k2"], 5);
+    expect(emptyPool.clips).toEqual([]);
+    expect(emptyPool.ring).toEqual(["k1", "k2"]);
+    // limit 0 with an exhausted ring must NOT reset the ring as a side effect.
+    const limitZero = antiRepetition([makeCandidate("v1")], ["v1"], 0);
+    expect(limitZero.clips).toEqual([]);
+    expect(limitZero.ring).toEqual(["v1"]);
   });
 
   it("maps video fields onto SelectedClip", () => {

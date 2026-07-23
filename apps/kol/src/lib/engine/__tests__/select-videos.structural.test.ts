@@ -7,7 +7,9 @@
  *
  *  1. selection ⊆ eligible set — even against an adversarial ranker.
  *  2. a thankyou-tagged clip never survives a FEED selection.
- *  3. the ring's visit-to-visit suppression, and
+ *  3. the ring's visit-to-visit suppression — and, once the ring holds the
+ *     whole eligible pool, the exhaustion encore (§3.1): a fresh ranked lap
+ *     on a reset ring, never a dead surface while eligible footage exists.
  *  4. the stateless-instance guarantee: two selectVideos invocations sharing
  *     ONLY the signed cookie still don't repeat.
  *
@@ -221,8 +223,35 @@ describe("selectVideos — structural suite", () => {
     const visit2 = await selectVideos(makeCtx({ limit: 1 }), deps);
     expect(visit2.clips.map((c) => c.videoId)).toEqual(["v2"]); // v1 suppressed
 
+    // Everything seen → exhaustion encore (video-engine §3.1): a fresh lap in
+    // ranked order, never a dead surface while eligible footage exists.
     const visit3 = await selectVideos(makeCtx({ limit: 1 }), deps);
-    expect(visit3.clips).toEqual([]); // everything seen → graceful empty, no throw
+    expect(visit3.clips.map((c) => c.videoId)).toEqual(["v1"]);
+
+    // The encore RESET the ring to its own lap, so suppression works again.
+    const visit4 = await selectVideos(makeCtx({ limit: 1 }), deps);
+    expect(visit4.clips.map((c) => c.videoId)).toEqual(["v2"]);
+  });
+
+  it("exhaustion encore stays inside the eligible set — a thankyou clip cannot ride the fresh lap", async () => {
+    const fixture = [
+      makeCandidate("feed-clip", { pageEligibility: ["feed"] }),
+      makeCandidate("thankyou-clip", { pageEligibility: ["thankyou"] }),
+    ];
+    const feedEligible = (_ctx: EngineContext) =>
+      Promise.resolve(fixture.filter((c) => c.profile.page_eligibility.includes("feed")));
+
+    for (const sessionId of SESSION_IDS) {
+      // The ring already holds the ONLY eligible clip → the encore must fire.
+      const selection = await selectVideos(makeCtx({ sessionId }), {
+        eligible: feedEligible,
+        ranker: seededShuffleRanker,
+        ring: makeMemoryRing(["feed-clip"]),
+      });
+      const selectedIds = selection.clips.map((c) => c.videoId);
+      expect(selectedIds).toEqual(["feed-clip"]); // re-served, not empty
+      expect(selectedIds).not.toContain("thankyou-clip"); // eligibility still wins
+    }
   });
 
   it("anti-repetition holds across two selectVideos invocations sharing only the cookie", async () => {
