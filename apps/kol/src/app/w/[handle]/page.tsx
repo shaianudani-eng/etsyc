@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cache } from "react";
 
 import { createEngineDeps, selectVideos } from "@/lib/engine";
 import { FEED_RING_COOKIE, ringCookieOptions } from "@/lib/feed/select";
 import { FEED_SESSION_COOKIE, resolveFeedSessionId } from "@/lib/feed/session";
 import { renderStore } from "@/lib/renderer/render-store";
-import { validateStoreConfig } from "@/lib/store-config/schema";
-import type { StoreConfig } from "@/lib/store-config/types";
 import { createClient } from "@/lib/supabase/server";
+
+import { getWorld } from "./get-world";
 
 /**
  * /w/[handle] — a maker's world, deep-linkable (spec B3 / E5 ruling: a
@@ -26,32 +25,12 @@ import { createClient } from "@/lib/supabase/server";
  * the persistent single-clip slot, and the renderer pins it via
  * media.clips[].id ≡ videos.id. The engine never reads blocks or
  * stores.config; the renderer never reads the canonical video tables.
+ *
+ * The 404 is NOT decided here — layout.tsx owns it, because this file
+ * renders inside the loading.tsx boundary where the status code is already
+ * spent. The guards below are belt-and-braces for the null type, not the
+ * gate.
  */
-
-const getWorld = cache(
-  async (
-    handle: string,
-  ): Promise<{ storeId: string; name: string; config: StoreConfig } | null> => {
-    const supabase = await createClient();
-    const { data: store } = await supabase
-      .from("stores")
-      .select("id, name, config")
-      .eq("handle", handle)
-      .eq("published", true)
-      .maybeSingle();
-    if (!store) return null;
-
-    // Stored configs were validated at write time (P3); a row that fails
-    // now is corrupt data, not a render case — degrade to 404 rather than
-    // an unstyled or broken world.
-    const parsed = validateStoreConfig(store.config);
-    if (!parsed.ok) {
-      console.warn(`[w/${handle}] stored config failed validation — serving 404`, parsed.errors);
-      return null;
-    }
-    return { storeId: store.id, name: store.name, config: parsed.config };
-  },
-);
 
 export async function generateMetadata({
   params,
@@ -60,9 +39,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { handle } = await params;
   const world = await getWorld(handle);
-  // 404 here, not only in the page: metadata resolves BEFORE streaming
-  // starts, so the status code is still settable (the loading.tsx boundary
-  // means a notFound() thrown mid-stream would arrive after a 200).
+  // unreachable in practice — the layout already 404'd on a missing world,
+  // and this read is the same cached one
   if (!world) notFound();
   return {
     title: `${world.config.maker.displayName} — ${world.name} · KOL`,
@@ -124,6 +102,7 @@ async function selectSignatureClipId(storeId: string): Promise<string | undefine
 
 export default async function WorldPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
+  // same request-cached read the layout already gated on — see layout.tsx
   const world = await getWorld(handle);
   if (!world) notFound();
 

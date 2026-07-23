@@ -6,6 +6,12 @@ import { Skeleton, SkeletonLines } from "@/components/states/Skeleton";
  * beneath), never a spinner. Space is reserved at the film's real aspect
  * so the unfold starts with zero layout shift when the config resolves
  * (§0.3 house rules; CLS 0).
+ *
+ * This file is also a Suspense boundary, so the shell — and the status
+ * code — flushes before anything under it resolves. That is why a missing
+ * world's 404 is thrown from layout.tsx, ABOVE this boundary, and not from
+ * the page. Deleting this file would fix the status code too; it would also
+ * cost the world its opening geometry. Don't.
  */
 export default function WorldLoading() {
   return (
