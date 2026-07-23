@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ReviewsBlock } from "@/components/blocks/reviews";
 import type { BlockState } from "@/components/blocks/shared";
@@ -7,6 +8,9 @@ import { senaStore } from "@/lib/store-config/fixtures/sena";
 import { renderBlock, renderStore } from "@/lib/renderer/render-store";
 import { themeStyle } from "@/lib/theme/apply-theme";
 import { cn } from "@/lib/utils";
+
+// Internal review surface — never in the index (robots.ts also disallows it).
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 const STATES: BlockState[] = ["success", "loading", "empty", "error"];
 
