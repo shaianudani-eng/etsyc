@@ -14,9 +14,12 @@
  *    discarded here, so the selection is always a subset of the eligible set.
  *    A ranker can make the feed better; it can never make it wrong.
  * 2. Stage 3 runs on stage 2's OUTPUT — no ranker can bypass or defeat dedupe.
- * 3. An empty candidate set flows through gracefully to an empty Selection;
+ * 3. An empty ELIGIBLE pool flows through gracefully to an empty Selection;
  *    the engine never throws on empty (callers own the fallback, e.g.
- *    NARRATE_SHRINK keeps the persistent clip playing).
+ *    NARRATE_SHRINK keeps the persistent clip playing). When the pool is
+ *    non-empty but the session ring excludes all of it, stage 3 runs its
+ *    exhaustion encore (anti-repetition.ts, video-engine §3.1) — the visitor
+ *    starts a fresh lap instead of hitting a dead surface.
  */
 
 import { antiRepetition } from "./anti-repetition";

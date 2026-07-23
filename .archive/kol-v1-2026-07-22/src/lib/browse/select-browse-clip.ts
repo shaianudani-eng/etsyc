@@ -29,7 +29,10 @@ const StoreIdSchema = z.string().uuid();
 /**
  * Select the next `process`/`atmosphere` clip for a browsing buyer, or
  * `null` when nothing is eligible — the caller keeps the current clip
- * playing (graceful, never an error; screen-specs §4.4). Engine, DB, or
+ * playing (graceful, never an error; screen-specs §4.4). A session that
+ * has already seen every eligible clip does NOT land here: stage 3's
+ * exhaustion encore (video-engine §3.1) re-serves a fresh lap, so a long
+ * browse keeps swapping instead of freezing on one clip. Engine, DB, or
  * config failures also resolve `null`: a swap that can't happen is a
  * non-event, never error chrome over a playing film.
  */

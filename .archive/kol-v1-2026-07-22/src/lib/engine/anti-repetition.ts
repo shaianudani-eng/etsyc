@@ -10,6 +10,14 @@
  * NEWEST key. The selected batch's keys are prepended and the result is bounded
  * to KEY_RING_MAX, so eviction is newest-wins: the oldest (deepest) keys fall
  * off the end.
+ *
+ * Exhaustion encore (video-engine §3.1): when the ring excludes EVERY candidate
+ * — post-ring selection empty, input non-empty, limit > 0 — the selection
+ * re-runs against an empty ring and the written-back ring becomes the encore
+ * batch's keys only (a ring reset, same accepted trade-off as the session-TTL
+ * reset). A visitor who has seen the whole eligible pool starts a fresh lap in
+ * ranked order instead of hitting a dead surface; an empty ELIGIBLE pool still
+ * yields an empty selection — the encore never invents candidates.
  */
 
 import {
@@ -21,6 +29,24 @@ import {
 } from "./types";
 
 export function antiRepetition(
+  candidates: Candidate[],
+  ring: KeyRing,
+  limit: number,
+): { clips: SelectedClip[]; ring: KeyRing } {
+  const first = selectAgainst(candidates, ring, limit);
+  if (first.clips.length === 0 && candidates.length > 0 && limit > 0) {
+    // Every candidate's key is in the ring (with an empty ring and limit > 0
+    // the first candidate always selects, so this state is unreachable any
+    // other way) — encore: one pass on a fresh ring, guaranteed non-empty.
+    // The returned ring is the encore batch's keys alone: appending onto the
+    // saturated ring instead would leave every later call exhausted and
+    // re-serve the ranked-first clip forever, rather than cycling laps.
+    return selectAgainst(candidates, [], limit);
+  }
+  return first;
+}
+
+function selectAgainst(
   candidates: Candidate[],
   ring: KeyRing,
   limit: number,
