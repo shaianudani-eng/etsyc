@@ -117,6 +117,12 @@ export default async function Home() {
               <li key={maker.handle}>
                 <Link
                   href={`/w/${maker.handle}`}
+                  // No prefetch: each world render costs a store read plus an
+                  // engine WORLD_OPEN selection (measured 120–580ms server-
+                  // side). Prefetching the whole index paid that for every
+                  // maker on every landing view to save one click on one of
+                  // them. The primary CTA above still prefetches.
+                  prefetch={false}
                   className="group flex w-fit flex-col rounded-sm outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
                 >
                   <span className="font-display text-h3 text-ink underline-offset-4 group-hover:underline">
