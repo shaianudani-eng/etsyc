@@ -142,7 +142,7 @@ export default async function WorldPage({ params }: { params: Promise<{ handle: 
       <Link
         href="/feed"
         aria-label="Back to the KOL feed"
-        className="fixed left-3 top-3 z-[60] inline-flex min-h-9 items-center rounded-pill border border-line bg-surface/85 px-4 py-1.5 font-text text-caption uppercase tracking-[0.08em] text-ink backdrop-blur-sm transition-colors duration-state ease-kol hover:bg-surface"
+        className="fixed left-3 top-3 z-[60] inline-flex min-h-9 items-center rounded-pill border border-line bg-surface/85 px-4 py-1.5 font-text text-caption uppercase tracking-[0.08em] text-ink backdrop-blur-sm transition-colors duration-state ease-kol hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         ← KOL
       </Link>

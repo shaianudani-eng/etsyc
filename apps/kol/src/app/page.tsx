@@ -75,14 +75,14 @@ export default async function Home() {
           </Link>
           <Link
             href={SIGN_IN_PATH}
-            className="inline-flex min-h-11 items-center rounded-pill border border-line bg-surface px-6 py-2.5 text-ink transition-colors duration-state ease-kol hover:bg-ground active:scale-[0.98]"
+            className="inline-flex min-h-11 items-center rounded-pill border border-line bg-surface px-6 py-2.5 text-ink transition-colors duration-state ease-kol hover:bg-ground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-[0.98]"
           >
             Sign in
           </Link>
         </div>
         <Link
           href="/seller"
-          className="w-fit font-text text-caption uppercase tracking-[0.04em] text-muted underline-offset-4 hover:underline"
+          className="w-fit rounded-sm font-text text-caption uppercase tracking-[0.04em] text-muted underline-offset-4 outline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         >
           Are you a maker? Open your world
         </Link>
@@ -99,7 +99,10 @@ export default async function Home() {
           <ul className="flex flex-col gap-[var(--space-3)]">
             {makers.map((maker) => (
               <li key={maker.handle}>
-                <Link href={`/w/${maker.handle}`} className="group flex flex-col">
+                <Link
+                  href={`/w/${maker.handle}`}
+                  className="group flex w-fit flex-col rounded-sm outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                >
                   <span className="font-display text-h3 text-ink underline-offset-4 group-hover:underline">
                     {maker.displayName}
                   </span>
