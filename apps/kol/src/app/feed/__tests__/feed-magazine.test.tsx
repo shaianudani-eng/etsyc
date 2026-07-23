@@ -133,7 +133,7 @@ describe("empty — a warm invitation, never a blank void", () => {
   it("renders the invitation with the maker CTA", () => {
     render(<FeedMagazine result={{ status: "empty", cards: [] }} />);
     expect(
-      screen.getByRole("heading", { level: 1, name: /No one’s opened their doors yet\./ }),
+      screen.getByRole("heading", { level: 1, name: /You’re all caught up\./ }),
     ).toBeTruthy();
     const cta = screen.getByRole("link", { name: "Are you a maker?" });
     expect(cta.getAttribute("href")).toBe("/seller");

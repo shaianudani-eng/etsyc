@@ -286,12 +286,16 @@ function FeedInvitation() {
       <p className="font-text text-caption uppercase tracking-[0.08em] text-muted">
         KOL · Today
       </p>
+      {/* One layout, two truths: a marketplace with no worlds yet AND a
+          session that has watched every open world both land here — the
+          copy must be honest for both (the ring resets on session expiry,
+          engine spec §3.1, so "check back soon" is literal). */}
       <h1 className="max-w-[18ch] font-display text-h1 font-medium [text-wrap:balance]">
-        No one’s opened their doors yet.
+        You’re all caught up.
       </h1>
       <p className="max-w-measure text-body-lg text-muted">
-        KOL is makers before it is anything else. When the first world opens,
-        it’ll be here.
+        Every world that’s open right now has been in your feed. New makers
+        are always setting up their benches — check back soon.
       </p>
       <Link
         href="/seller"
